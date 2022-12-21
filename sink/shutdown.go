@@ -2,10 +2,11 @@
 package sink
 
 import (
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/rs/zerolog/log"
 )
 
 type ShutdownHandler struct {
@@ -21,11 +22,11 @@ func (x *ShutdownHandler) AddListener(f func()) {
 }
 
 func (x *ShutdownHandler) Listen() {
-	sigs := make(chan os.Signal, 1)
-	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
-		s := <-sigs
-		log.Printf("[SHUTDOWN] shutting down in 15 seconds: %s", s)
+		s := <-c
+		log.Info().Str("component", "shutdown").Str("signal", s.String()).Msg("signal nofify")
 		for _, ShutItDown := range x.listeners {
 			ShutItDown()
 		}
