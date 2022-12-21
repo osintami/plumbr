@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"strings"
@@ -52,7 +52,7 @@ func LoadJson(fileName string, cfg interface{}) error {
 	}
 	defer fh.Close()
 
-	obj, err := ioutil.ReadAll(fh)
+	obj, err := io.ReadAll(fh)
 	if err != nil {
 		log.Error().Err(err).Str("component", "sink").Str("file", fileName).Msg("load json read")
 		return err
@@ -215,7 +215,7 @@ func decodePEMFile(filePath string) ([]byte, error) {
 		return nil, err
 	}
 	defer f.Close()
-	buf, err := ioutil.ReadAll(f)
+	buf, err := io.ReadAll(f)
 	if err != nil {
 		return nil, err
 	}

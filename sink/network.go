@@ -43,8 +43,6 @@ type EmailLiveLookupInfo struct {
 	Reason             string
 }
 
-var localhost = net.ParseIP("127.0.0.1")
-
 func NewNetwork() *Network {
 	cache_mx := make(map[string]string)
 	return &Network{
