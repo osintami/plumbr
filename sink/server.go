@@ -86,7 +86,7 @@ func ListenAndServeTor(certFile string, auths map[string]string, router http.Han
 	torServer, err := tor.Start(
 		context.Background(),
 		&tor.StartConf{
-			DataDir:        "/tmp/tor-data",
+			DataDir:        "/tmp/",
 			ProcessCreator: libtor.Creator,
 			DebugWriter:    log.Logger})
 	if err != nil {
