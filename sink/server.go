@@ -83,7 +83,12 @@ func ListenAndServe(ListenAddr, SSLCertFile, SSLKeyFile string, router http.Hand
 // go run main.go
 // go grab a soda and wait for libtor to build
 func ListenAndServeTor(certFile string, auths map[string]string, router http.Handler) error {
-	torServer, err := tor.Start(nil, &tor.StartConf{ProcessCreator: libtor.Creator, DebugWriter: log.Logger})
+	torServer, err := tor.Start(
+		context.Background(),
+		&tor.StartConf{
+			DataDir:        "/tmp/tor-data",
+			ProcessCreator: libtor.Creator,
+			DebugWriter:    log.Logger})
 	if err != nil {
 		log.Error().Err(err).Str("component", "sink").Str("file", certFile).Msg("start tor")
 		return err
