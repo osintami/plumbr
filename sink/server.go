@@ -37,6 +37,13 @@ func InitLogger(level string) {
 }
 
 func LoadEnv(output interface{}) {
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal().Msg(".env")
+		return
+	}
+
 	if err := env.Parse(output); err != nil {
 		log.Fatal().Err(err).Msg("environment")
 	}
